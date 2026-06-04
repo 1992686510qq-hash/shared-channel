@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-06-04T04:12:29.156Z",
+  "total": 4,
+  "online": 1,
+  "offline": 3,
+  "sourceDistribution": {
+    "小米(国内)": 1
+  },
+  "proxies": [
+    {
+      "port": 3433,
+      "uuid": "24bb9912-73e0-43ae-aebf-6e76dd9af138",
+      "sessionName": "项目进展",
+      "project": "D:\\CC项目\\项目进展",
+      "online": false,
+      "currentProvider": null,
+      "baseUrl": "N/A",
+      "apiSource": "unknown",
+      "apiLabel": "未知",
+      "configPath": "N/A"
+    },
+    {
+      "port": 3434,
+      "uuid": "69686f8d-d88b-4ff3-ac7c-6cb5852abca1",
+      "sessionName": "token监控",
+      "project": "D:\\CC项目\\token监控",
+      "online": true,
+      "currentProvider": "setting-s3.json",
+      "baseUrl": "https://token-plan-cn.xiaomimimo.com/anthropic",
+      "apiSource": "xiaomi-cn",
+      "apiLabel": "小米(国内)",
+      "configPath": "C:\\Users\\Administrator\\.claude\\config-c34.json"
+    },
+    {
+      "port": 3435,
+      "uuid": "a5158c6d-b682-429a-a583-c09449b39b1b",
+      "sessionName": "zelllij",
+      "project": "D:\\CC项目\\ecc",
+      "online": false,
+      "currentProvider": null,
+      "baseUrl": "N/A",
+      "apiSource": "unknown",
+      "apiLabel": "未知",
+      "configPath": "N/A"
+    },
+    {
+      "port": 3436,
+      "uuid": "be741c1e-e608-451a-9350-ce75c7cf6892",
+      "sessionName": "(unnamed)",
+      "project": "D:\\CC项目\\ecc",
+      "online": false,
+      "currentProvider": null,
+      "baseUrl": "N/A",
+      "apiSource": "unknown",
+      "apiLabel": "未知",
+      "configPath": "N/A"
+    }
+  ]
+}
