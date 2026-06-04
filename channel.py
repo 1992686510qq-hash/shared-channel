@@ -199,9 +199,41 @@ def cmd_recv(args):
     print(json.dumps({"messages": unread, "stopped": stopped}, ensure_ascii=False), flush=True)
 
 
+def cmd_read(args):
+    """Read raw messages file, optionally filtered by sender."""
+    sdir = _check_session(args.session)
+    msg_path = sdir / "messages.jsonl"
+    if not msg_path.exists():
+        print(json.dumps({"messages": [], "stopped": (sdir / "stop.flag").exists()}), flush=True)
+        return
+
+    msgs = []
+    with open(msg_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                msg = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if args.sender and msg.get("from") == args.sender:
+                continue  # Skip own messages when filtering
+            msgs.append(msg)
+
+    stopped = (sdir / "stop.flag").exists()
+    print(json.dumps({"messages": msgs, "stopped": stopped, "count": len(msgs)}, ensure_ascii=False), flush=True)
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main():
+    # Force UTF-8 stdout on Windows to prevent garbled Chinese
+    if sys.platform == "win32":
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+
     parser = argparse.ArgumentParser(
         description="Cross-window message channel for Claude Code"
     )
@@ -223,6 +255,11 @@ def main():
     p.add_argument("--session", required=True, help="Session ID")
     p.add_argument("--from", dest="sender", required=True, help="Recipient (A/B/...)")
 
+    # read (raw file read, bypasses cursor)
+    p = sub.add_parser("read", help="Read all messages (raw, no cursor)")
+    p.add_argument("--session", required=True, help="Session ID")
+    p.add_argument("--from", dest="sender", help="Filter out messages from this sender")
+
     args = parser.parse_args()
 
     if args.command == "init":
@@ -231,6 +268,8 @@ def main():
         cmd_send(args)
     elif args.command == "recv":
         cmd_recv(args)
+    elif args.command == "read":
+        cmd_read(args)
     else:
         parser.print_help()
         sys.exit(1)

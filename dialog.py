@@ -300,6 +300,12 @@ def cmd_status(args):
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main():
+    # Force UTF-8 stdout on Windows to prevent garbled Chinese
+    if sys.platform == "win32":
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+
     parser = argparse.ArgumentParser(description="Dialog mode manager")
     sub = parser.add_subparsers(dest="command")
 

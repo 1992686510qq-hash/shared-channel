@@ -51,6 +51,12 @@ def send(session_id: str, sender: str, content: str) -> bool:
 
 
 def main():
+    # Force UTF-8 stdout on Windows to prevent garbled Chinese
+    if sys.platform == "win32":
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+
     parser = argparse.ArgumentParser(description="Session Agent — 快速轮询会话")
     parser.add_argument("--session", required=True, help="会话 ID")
     parser.add_argument("--from", dest="sender", required=True, help="你的身份 (A/B/C/...)")
